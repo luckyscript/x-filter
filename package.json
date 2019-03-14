@@ -1,6 +1,6 @@
 {
   "name": "@luckylab/x-filter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "another style xss filter",
   "main": "index.js",
   "scripts": {

@@ -3,10 +3,23 @@
 module.exports = class Parser {
   constructor() {
     this.beforeTags = [];
-  } 
+  }
+  /**
+   * trans unsafe code to safe code, but support <x> tag
+   * <x> can be translate to <span> <img> <a> <code> depends on the attribute on tags
+   * only "src", "href", "code" is accept
+   * style is not support because I don't think it's necessary.
+   * @param {string} html unsafe html string
+   * @return {string} safe html string
+   */
   parse(html) {
+    html = html || "";
+    html = html.toString();
+    if (!html) {
+      return "";
+    }
     let startPos = 0,
-      tagIsStart = false,
+      tagIsStart = false, // flag to mark that whether maybe in tag
       tagStartPos = 0,
       tagEndPos = 0,
       inQuote = false;
@@ -40,16 +53,18 @@ module.exports = class Parser {
           tagStartPos = currentPos;
         }
       } else if (char === '>') {
-        retHtml += this.escapeHtml(html.slice(startPos, tagStartPos));
-        const currentTag = html.slice(tagStartPos, currentPos + 1);
-        retHtml += this.parseValidTag(currentTag);
-        startPos = currentPos + 1;
-        tagIsStart = false;
-        tagEndPos = currentPos;
-        continue;
+        if (tagIsStart) {
+          retHtml += this.escapeHtml(html.slice(startPos, tagStartPos));
+          const currentTag = html.slice(tagStartPos, currentPos + 1);
+          retHtml += this.parseValidTag(currentTag);
+          startPos = currentPos + 1;
+          tagIsStart = false;
+          tagEndPos = currentPos + 1;
+          continue;
+        }
       }
     }
-    retHtml += this.escapeHtml(html.slice(tagEndPos+1, len));
+    retHtml += this.escapeHtml(html.substr(tagEndPos));
     return retHtml;
   }
 

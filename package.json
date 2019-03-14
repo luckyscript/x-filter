@@ -1,0 +1,22 @@
+{
+  "name": "x-filter",
+  "version": "1.0.0",
+  "description": "another style xss filter",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luckyscript/x-filter.git"
+  },
+  "author": "luckyscript",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/luckyscript/x-filter/issues"
+  },
+  "homepage": "https://github.com/luckyscript/x-filter#readme",
+  "dependencies": {
+    "mocha": "^6.0.2"
+  }
+}
